@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dsh.demo.mapper.UserMapper">
+	
+	<resultMap id="BaseResultMap" type="com.dsh.demo.pojo.UserPo" >
+        <id column="user_id" property="user_id" jdbcType="BIGINT" />
+        <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="browse_ip" property="browse_ip" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="Base_Column_List" >
+        user_id, user_name, type, browse_ip
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap" >
+       SELECT 
+       <include refid="Base_Column_List" /> FROM tb_user
+    </select>
+    
+    <select id="getOneUser" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       SELECT <include refid="Base_Column_List" /> FROM tb_user where user_id=#{id}
+    </select>
+    
+    <insert id="insert" parameterType="com.dsh.demo.pojo.UserPo" >
+       INSERT INTO 
+       		tb_user
+       		(user_name,type,browse_ip,created_time) 
+       	VALUES
+       		(#{user_name}, #{type}, #{browse_ip},now())
+    </insert>
+    
+    <update id="update" parameterType="com.dsh.demo.pojo.UserPo" >
+       UPDATE 
+       		tb_user 
+       SET 
+       	<if test="user_name != null">user_name = #{user_name},</if>
+       	<if test="type != null">type = #{type},</if>
+       	browse_ip = #{browse_ip}
+       WHERE 
+       		user_id = #{user_id}
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.Long" >
+       DELETE FROM
+       		 tb_user 
+       WHERE 
+       		 user_id =#{id}
+    </delete>
+</mapper>
