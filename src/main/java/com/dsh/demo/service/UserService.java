@@ -7,4 +7,6 @@ import com.dsh.demo.pojo.UserPo;
 public interface UserService {
 	
 	List<UserPo> getAll();
+
+	int insertUser(UserPo user);
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dsh.demo.mapper.UserMapper;
 import com.dsh.demo.pojo.UserPo;
+import com.dsh.demo.service.impl.UserServiceImpl;
 
 
 /**
@@ -22,6 +23,9 @@ public class MyController{
 	
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired(required = true)
+	private UserServiceImpl userService;
+	
 	
 	@RequestMapping("/home")
     @ResponseBody
@@ -57,7 +61,16 @@ public class MyController{
 		int i = userMapper.insert(user);
     	 return i;
     }
-    
+	/**
+	 * 事务
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/insert")
+    public @ResponseBody int saveUser(UserPo user) {
+		int i = userService.insertUser(user);
+    	return i;
+    }
     @RequestMapping(value="/update")
     public @ResponseBody int update(UserPo user) {
     	int i = userMapper.update(user);
