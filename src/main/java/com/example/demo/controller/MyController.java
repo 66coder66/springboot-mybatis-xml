@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dsh.demo.mapper.UserMapper;
 import com.dsh.demo.pojo.UserPo;
 import com.dsh.demo.service.impl.UserServiceImpl;
-import com.example.demo.annotation.RedisCache;
+import com.example.demo.annotation.RedisCacheQ;
+import com.example.demo.cache.RedisCache;
+
 
 
 /**
@@ -22,11 +27,18 @@ import com.example.demo.annotation.RedisCache;
 @Controller
 public class MyController{
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyController.class);
+	private String clazzName = "com.example.demo.controller.MyController.";
+	
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired(required = true)
 	private UserServiceImpl userService;
 	
+	
+	@Autowired
+    @Qualifier("redisCache")
+    private RedisCache redisCache;
 	
 	@RequestMapping("/home")
     @ResponseBody
@@ -40,8 +52,9 @@ public class MyController{
 	 */
 	@RequestMapping("/getOneUser/{id}")
 	@ResponseBody
-	@RedisCache
+	@RedisCacheQ
     public String getOneUser(@PathVariable("id") Long id) {
+		LOGGER.info("**********getOneUser**********");
 		String res = "";
 		UserPo user = userMapper.getOneUser(id);
 		if(null != user){
@@ -54,7 +67,7 @@ public class MyController{
 	 * @return
 	 */
 	@RequestMapping("/getUsers")
-	@RedisCache
+	@RedisCacheQ
 	public @ResponseBody String getUsers() {
 		List<UserPo> users = userMapper.getAll();
 		return users.toString();
@@ -62,7 +75,7 @@ public class MyController{
 	@RequestMapping("/add")
     public @ResponseBody int save(UserPo user) {
 		int i = userMapper.insert(user);
-    	 return i;
+    	return i;
     }
 	/**
 	 * 事务
@@ -75,9 +88,13 @@ public class MyController{
     	return i;
     }
     @RequestMapping(value="/update")
-    @RedisCache
     public @ResponseBody int update(UserPo user) {
     	int i = userMapper.update(user);
+    	Object obj =  (Object) user.toString();
+    	Integer id = user.getUser_id();
+    	String redisKey = id + ":" + clazzName + "getOneUser";
+    	String code =  redisCache.saveDataToRedis(redisKey, obj);
+    	LOGGER.info("**********从Redis中更新数据**********:"+ code);
     	return i;
     }
 	/**
@@ -85,9 +102,18 @@ public class MyController{
 	 * @param id
 	 */
 	@RequestMapping(value="/delete/{id}")
-	@RedisCache
     public @ResponseBody int delete(@PathVariable("id") Long id) {
     	int i = userMapper.delete(id);
+    	//删除redis对应的数据
+    	String redisKey = id + ":" + clazzName + "getOneUser";
+    	Object obj = redisCache.getDataFromRedis(redisKey);
+
+        if(obj!=null){
+            LOGGER.info("**********从Redis中查到了数据**********");
+            LOGGER.info("Redis的KEY值:"+redisKey);
+            Long code =  redisCache.delDataToRedis(redisKey, obj);
+            LOGGER.info("**********从Redis中删除数据**********:"+ code);
+        }
     	return i;
     }
 }

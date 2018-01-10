@@ -49,6 +49,18 @@ public class RedisCache {
         
         return code;
     }
+    /**
+     * Redis删除数据
+     * @param redisKey
+     */
+    public Long delDataToRedis(String redisKey,Object obj){
+        
+        Jedis jedis = jedisPool.getResource();
+        
+        Long code = jedis.del(redisKey);
+        
+        return code;
+    }
     
 	
 }

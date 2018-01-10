@@ -7,12 +7,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 元注解 用来标识查询数据库的方法
+ * 元注解 用来标识修改数据的方法
  */
 
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RedisCache {
+public @interface RedisCacheU {
 
 }
