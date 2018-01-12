@@ -102,7 +102,11 @@ public class RedisAspect {
             e.printStackTrace();
         }
     	//后置：将数据库查到的数据保存到Redis
-        String code = redisCache.saveDataToRedis(redisKey,obj);
+        
+        String code = "";
+        if(isNotEmpty(obj)){
+        	code = redisCache.saveDataToRedis(redisKey,obj);
+        }
         if(code.equals("OK")){
             LOGGER.info("**********数据成功保存到Redis缓存!!!**********");
             LOGGER.info("Redis的KEY值:"+redisKey);
