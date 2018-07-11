@@ -49,6 +49,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- 跳转html页面的依赖 -->
+		<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-thymeleaf</artifactId>
+    	</dependency>
+		
 		<!-- log4j 
         <dependency>
             <groupId>org.springframework.boot</groupId>

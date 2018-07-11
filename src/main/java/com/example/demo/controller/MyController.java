@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +45,18 @@ public class MyController{
     @ResponseBody
     public String home() {
         return "Hello World!";
+    }
+	/**
+	 * 跳转页面
+	 * 
+	 */
+	@RequestMapping("/index")
+    public String indexHtml(ModelMap modelMap) {
+		
+		//向模板中添加属性
+        modelMap.put("hello","helloweb");
+        // return模板文件的名称，对应src/main/resources/templates/index.html
+        return "index";
     }
 	/**
 	 * 根据id查询用户
