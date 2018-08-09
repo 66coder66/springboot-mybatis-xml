@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,10 +52,24 @@ public class MyController{
 	 * 
 	 */
 	@RequestMapping("/index")
-    public String indexHtml(ModelMap modelMap) {
+    public String indexHtml(Model model) {
 		
 		//向模板中添加属性
-        modelMap.put("hello","helloweb");
+		UserPo user = new UserPo();
+		user.setUser_name("zhangsan");
+        user.setType("AI");
+        List<UserPo> users = new ArrayList<>();
+        UserPo u1 = new UserPo();
+        u1.setUser_name("lisi");
+        u1.setType("BI");
+        UserPo u2 = new UserPo();
+        u2.setUser_name("wangwu");
+        u2.setType("CI");
+        users.add(user);
+        users.add(u1);
+        users.add(u2);
+		model.addAttribute("user",user);
+		model.addAttribute("users",users);
         // return模板文件的名称，对应src/main/resources/templates/index.html
         return "index";
     }
