@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Welcome Vue </title>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <script src="../../js/vue.min.js"></script>
+</head>
+<body>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">访问Vue</h3>
+    </div>
+    <div class="panel-body" id="app">
+        <span>{{ single.user_name }}--{{single.type}}</span>
+    </div>
+</div>
+<div id="table">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">列表</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="user in tableList">
+                    <span>{{user.user_name}}</span>
+                    <span>{{user.type}}</span>
+                    <button class="btn" v-on:click="getName(user.user_name)">弹</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var app = new Vue({
+            el: '#app',
+            data: {
+                single:[[${user}]]
+            }
+    });
+    var table = new Vue({
+                el: '#table',
+                data: {
+                    tableList :[[${users}]]
+                },
+                methods: {
+                            getName: function (name) {
+                                alert(name);
+                            }
+                        }
+        });
+
+</script>
+</body>
+</html>
