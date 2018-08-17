@@ -12,7 +12,13 @@
     
     
 	<bean id="userService" class="com.dsh.demo.service.impl.UserServiceImpl"/>
-	
+	<bean id="sysuserService" class="com.dsh.demo.service.impl.SysUserServiceImpl"/>
+	<!--security相关-->
+	<bean id="urlAccessDecisionManager" class="com.example.demo.security.UrlAccessDecisionManager"/>
+	<bean id="urlFilterSecurityInterceptor" class="com.example.demo.security.UrlFilterSecurityInterceptor"/>
+	<bean id="urlMetadataSourceService" class="com.example.demo.security.UrlMetadataSourceService"/>
+	<bean id="urlUserService" class="com.example.demo.security.UrlUserService"/>
+
 	<bean id="txManager"
 	    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	    <property name="dataSource" ref="dataSource" ></property>

@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.dsh.demo.util.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +41,29 @@ public class MyController{
 	@Autowired
     @Qualifier("redisCache")
     private RedisCache redisCache;
-	
+
+
+	@RequestMapping("/")
+	public String index(Model model){
+		Msg msg =  new Msg("测试标题","测试内容","欢迎来到HOME页面,您拥有 ROLE_HOME 权限");
+		model.addAttribute("msg", msg);
+		return "home";
+	}
+
+
 	@RequestMapping("/home")
     @ResponseBody
-    public String home() {
-        return "Hello World!";
+    public String home(Model model) {
+		Msg msg =  new Msg("测试标题","测试内容","额外信息，只对管理员显示");
+		model.addAttribute("msg", msg);
+		return "home";
     }
+
+	@RequestMapping("/admin")
+	@ResponseBody
+	public String admin(){
+		return "hello admin";
+	}
 	/**
 	 * 跳转页面
 	 * 
@@ -141,7 +158,7 @@ public class MyController{
     	//删除redis对应的数据
     	String redisKey = id + ":" + clazzName + "getOneUser";
     	Object obj = redisCache.getDataFromRedis(redisKey);
-		
+
         if(obj!=null){
             LOGGER.info("**********从Redis中查到了数据**********");
             LOGGER.info("Redis的KEY值:"+redisKey);

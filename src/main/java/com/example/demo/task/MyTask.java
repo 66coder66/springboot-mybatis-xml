@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class MyTask {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Scheduled(cron = "0/10 * * * * ?") // 每5秒执行一次
+	//@Scheduled(cron = "0/10 * * * * ?") // 每5秒执行一次
 	public void scheduler() {
 	   logger.info(">>>>>>>>>>>>> scheduled test... ");
 	}
