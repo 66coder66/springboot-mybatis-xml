@@ -56,23 +56,29 @@ public class MyController{
 		
 		//向模板中添加属性
 		UserPo user = new UserPo();
-		user.setUser_name("zhangsan");
-        user.setType("AI");
-        List<UserPo> users = new ArrayList<>();
-        UserPo u1 = new UserPo();
-        u1.setUser_name("lisi");
-        u1.setType("BI");
-        UserPo u2 = new UserPo();
-        u2.setUser_name("wangwu");
-        u2.setType("CI");
-        users.add(user);
-        users.add(u1);
-        users.add(u2);
+		user.setUser_name("lisi");
+        user.setType("BI");
+        List<UserPo> users = userMapper.getAll();
+
 		model.addAttribute("user",user);
 		model.addAttribute("users",users);
         // return模板文件的名称，对应src/main/resources/templates/index.html
         return "index";
     }
+	/**
+	 * 跳转vue页面
+	 *
+	 */
+	@RequestMapping("/vuepage")
+	public String vuePage(Model model) {
+		UserPo user = new UserPo();
+		user.setUser_name("lisi");
+		user.setType("BI");
+		List<UserPo> users = userMapper.getAll();
+		model.addAttribute("users",users);
+		model.addAttribute("user",user);
+		return "vue/index";
+	}
 	/**
 	 * 根据id查询用户
 	 * @param id
@@ -135,7 +141,7 @@ public class MyController{
     	//删除redis对应的数据
     	String redisKey = id + ":" + clazzName + "getOneUser";
     	Object obj = redisCache.getDataFromRedis(redisKey);
-
+		
         if(obj!=null){
             LOGGER.info("**********从Redis中查到了数据**********");
             LOGGER.info("Redis的KEY值:"+redisKey);
@@ -144,4 +150,5 @@ public class MyController{
         }
     	return i;
     }
+
 }
