@@ -22,4 +22,10 @@ public class SysUserServiceImpl implements SysUserService {
         SysUserPo user = sysUserMapper.getById(id);
         return user;
     }
+    @Override
+    public SysUserPo findByUserName(String username) {
+        SysUserPo use = sysUserMapper.findByUserName(username);
+        return use;
+
+    }
 }

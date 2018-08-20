@@ -55,8 +55,8 @@ public class PermissionPo {
 
     public void setMethod(String method) {
         this.method = method;
-    }
 
+    }
     public int getPid() {
         return pid;
     }

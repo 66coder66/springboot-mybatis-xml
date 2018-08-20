@@ -7,13 +7,16 @@ import java.util.Collection;
 import java.util.List;
 
 public class SysUserPo implements UserDetails {
+
     private Integer id;
     private String username;
     private String password;
     private String type;
 
     private List<SysRolePo> roles;
+
     private List<? extends GrantedAuthority> authorities;
+
 
     public Integer getId() {
         return id;
@@ -27,6 +30,9 @@ public class SysUserPo implements UserDetails {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return false;
@@ -47,10 +53,6 @@ public class SysUserPo implements UserDetails {
         return false;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -59,6 +61,7 @@ public class SysUserPo implements UserDetails {
     public void setGrantedAuthorities(List<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
+
 
     public String getPassword() {
         return password;
