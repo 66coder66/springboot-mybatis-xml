@@ -33,7 +33,7 @@ public class CustomUserService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
         if (user != null) {
-            List<PermissionPo> permissions = permissionMapper.findByAdminUserId(user.getId());
+            List<PermissionPo> permissions = permissionMapper.getByUserId(user.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
             for (PermissionPo permission : permissions) {
                 if (permission != null && permission.getName()!=null) {
