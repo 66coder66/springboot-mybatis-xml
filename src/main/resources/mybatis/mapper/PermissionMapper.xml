@@ -7,14 +7,22 @@
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="descritpion" property="descritpion" jdbcType="VARCHAR" />
+<<<<<<< HEAD
         <result column="permissionUrl" property="permissionUrl" jdbcType="VARCHAR" />
         <result column="method" property="method" jdbcType="VARCHAR" />
+=======
+        <result column="url" property="url" jdbcType="VARCHAR" />
+>>>>>>> 1442c8e9dab10f3f8cbe27b6e3e86af11915118e
         <result column="pid" property="pid" jdbcType="BIGINT" />
 
     </resultMap>
     
     <sql id="Base_Column_List" >
+<<<<<<< HEAD
         id,name,descritpion, permissionUrl,method, pid
+=======
+        id,name,descritpion, url, pid
+>>>>>>> 1442c8e9dab10f3f8cbe27b6e3e86af11915118e
     </sql>
 
     <select id="getAll" resultMap="BaseResultMap" >
@@ -32,6 +40,7 @@
         where u.id=#{userId}
     </select>
 
+<<<<<<< HEAD
     <sql id="queryCondition">
         <where>
             <if test="id != null and id != ''">
@@ -108,5 +117,7 @@
         DELETE FROM sys_permission WHERE id = #{id}
     </delete>
 
+=======
+>>>>>>> 1442c8e9dab10f3f8cbe27b6e3e86af11915118e
 
 </mapper>
